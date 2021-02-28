@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>ui</title>
+    <link rel="stylesheet" href="css/public.css">
+    <style>
+        .statistics-wrap {
+            margin-top: 50px;
+        }
+
+        .statistics-wrap .main-com {
+            padding: 0;
+        }
+
+        .statistics-title {
+            font-size: 20px;
+            color: #2c2c2c;
+            border-bottom: 1px solid #e5e5e5;
+            margin-bottom: 48px;
+        }
+
+        .statistics-title span {
+            border-bottom: 3px solid #0e61bf;
+        }
+
+        .total-num-line {
+            font-size: 0;
+        }
+
+        .total-num {
+            display: inline-block;
+            width: 270px;
+            height: 76px;
+            background: #f6f6f6;
+            border: 1px solid #d4d3d8;
+            border-radius: 4px;
+            margin-right: 30px;
+            overflow: hidden;
+        }
+
+        .total-num-icon, .total-num-text {
+            display: inline-block;
+            margin-top: 17px;
+        }
+
+        .total-num-icon {
+            margin-left: 23px;
+            margin-right: 12px;
+        }
+
+        .total-num-icon img {
+            width: 40px;
+            height: 20px;
+            display: block;
+        }
+
+        .total-num-icon span {
+            font-size: 12px;
+        }
+
+        .exhibition-total-num .total-num-icon span {
+            color: #37b7f4;
+        }
+
+        .train-total-num .total-num-icon span {
+            color: #52e137;
+        }
+
+        .total-num-text > span {
+            font-size: 14px;
+            display: block;
+            color: #7c7c7e;
+        }
+
+        .total-num-text .num {
+            font-size: 18px;
+        }
+
+        .echart-wrap {
+            margin-top: 48px;
+            width: 100%;
+            height: 490px;
+            border: 1px solid #d3d2d7;
+            border-radius: 4px;
+        }
+
+        .main-chart {
+            width: 790px;
+            height: 450px;
+            margin-top: 20px;
+            margin-left: 10px;
+        }
+
+        .small-echart-wrap {
+            width: 324px;
+            height: 380px;
+            border: 1px solid #dddddd;
+            border-radius: 4px;
+            float: right;
+            margin-bottom: 36px;
+            position: relative;
+        }
+
+        .region-chart, .number-chart, .labels-chart {
+            margin-top: 30px;
+            margin-left: 10px;
+            width: 314px;
+            height: 310px;
+        }
+
+        .top-title {
+            height: 40px;
+            background: #eeeeee;
+            vertical-align: middle;
+            line-height: 40px;
+            font-size: 0;
+            cursor: pointer;
+            border-top-left-radius: 3px;
+            border-top-right-radius: 3px;
+        }
+
+        .active-small-echart {
+            border: 1px solid #0e61bf;
+        }
+
+        .active-small-echart .top-title {
+            background: #0e61bf;
+            color: #fff;
+        }
+
+        .top-title img {
+            width: 13px;
+            height: 9px;
+            margin: 0 15px 0 10px;
+        }
+
+        .top-title span {
+            font-size: 14px;
+        }
+        .main-table{
+            margin-top: 30px;
+            width: 100%;
+            border: 1px solid #ddd;
+            border-collapse: collapse;
+            text-align: center;
+        }
+        .main-table td:not(:last-child),.main-table th:not(:last-child){
+            border-right: 1px solid #ddd;
+            /*border-bottom: 1px solid #ddd;*/
+        }
+        .main-table tr:not(:last-child){
+            border: 1px solid #ddd;
+        }
+        .main-table tr:nth-child(odd) {
+            background: #fff;
+        }
+
+        .main-table tr:nth-child(even) {
+            background: #f9f9f9;
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="statistics-wrap layout clearfix">
+    <h1 class="statistics-title">
+        <span>综合统计</span>
+    </h1>
+    <div class="main-com">
+        <div class="total-num-line">
+            <div class="exhibition-total-num total-num">
+                <span class="total-num-icon">
+                    <img src="img/blue-count-trend.png" alt="">
+                    <span>+66%</span>
+                </span>
+                <span class="total-num-text">
+                    <span class="count-text">近期会展</span>
+                    <span><span class="num">1360</span>场</span>
+                </span>
+            </div>
+            <div class="train-total-num total-num">
+                <span class="total-num-icon">
+                    <img src="img/green-count-trend.png" alt="">
+                    <span>+16%</span>
+                </span>
+                <span class="total-num-text">
+                    <span class="count-text">近期培训</span>
+                    <span><span class="num">2430</span>场</span>
+                </span>
+            </div>
+        </div>
+        <div class="echart-wrap">
+            <div class="select-group-line">
+
+                <div style="display: inline-block;float: right;">
+                    <input id="startTime" class="search-filed-half Wdate" type="text"
+                           onFocus="WdatePicker({maxDate:'2008-03-10 20:59:30'})"/>
+                    <input id="endTime" class="search-filed-half Wdate" type="text"
+                           onFocus="WdatePicker({minDate:'2017-09-21 20:59:30'})"/>
+                </div>
+            </div>
+            <div class="echart-box">
+                <div id="main-chart" class="main-chart"></div>
+            </div>
+        </div>
+        <div class="main-table-wrap" id="main-table-wrap">
+            <table  cellspacing="0" class="main-table" cellpadding="10">
+                <tr>
+                    <th>地区 \ 类型</th>
+                    <th>会展</th>
+                    <th>培训</th>
+                </tr>
+                <tr>
+                    <th>北京</th>
+                    <td>3</td>
+                    <td>3</td>
+                </tr>
+                <tr>
+                    <th>北京</th>
+                    <td>1</td>
+                    <td>2</td>
+                </tr>
+                <tr>
+                    <th>北京</th>
+                    <td>1</td>
+                    <td>2</td>
+                </tr>
+                <tr>
+                    <th>北京</th>
+                    <td>3</td>
+                    <td>3</td>
+                </tr>
+                <tr>
+                    <th>北京</th>
+                    <td>1</td>
+                    <td>2</td>
+                </tr>
+                <tr>
+                    <th>北京</th>
+                    <td>1</td>
+                    <td>2</td>
+                </tr>
+                <tr>
+                    <th>北京</th>
+                    <td>1</td>
+                    <td>2</td>
+                </tr>
+                <tr>
+                    <th>北京</th>
+                    <td>3</td>
+                    <td>3</td>
+                </tr>
+                <tr>
+                    <th>北京</th>
+                    <td>1</td>
+                    <td>2</td>
+                </tr>
+                <tr>
+                    <th>北京</th>
+                    <td>1</td>
+                    <td>2</td>
+                </tr>
+                <tr>
+                    <th>北京</th>
+                    <td>1</td>
+                    <td>2</td>
+                </tr>
+                <tr>
+                    <th>北京</th>
+                    <td>3</td>
+                    <td>3</td>
+                </tr>
+                <tr>
+                    <th>北京</th>
+                    <td>1</td>
+                    <td>2</td>
+                </tr>
+                <tr>
+                    <th>北京</th>
+                    <td>1</td>
+                    <td>2</td>
+                </tr>
+                <tr>
+                    <th>北京</th>
+                    <td>1</td>
+                    <td>2</td>
+                </tr>
+                <tr>
+                    <th>北京</th>
+                    <td>3</td>
+                    <td>3</td>
+                </tr>
+                <tr>
+                    <th>北京</th>
+                    <td>1</td>
+                    <td>2</td>
+                </tr>
+                <tr>
+                    <th>北京</th>
+                    <td>1</td>
+                    <td>2</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div class="right-com">
+        <div class="small-echart-wrap active-small-echart">
+            <div class="top-title type-number active-title" data-type="countNumber">
+                <img src="img/icon-three-line.png"/>
+                <span>数量</span>
+            </div>
+            <div class="number-chart">
+            </div>
+        </div>
+        <div class="small-echart-wrap">
+            <div class="top-title type-region" data-type="countRegion">
+                <img src="img/icon-three-line.png"/>
+                <span>地区</span>
+            </div>
+            <div class="region-chart">
+            </div>
+        </div>
+        <div class="small-echart-wrap">
+            <div class="top-title type-labels" data-type="countLabels">
+                <img src="img/icon-three-line.png"/>
+                <span>话题</span>
+            </div>
+            <div class="labels-chart">
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="js/My97DatePicker/WdatePicker.js"></script>
+<script src="js/echarts.common.min.js"></script>
+<script src="js/ajax.js"></script>
+<script src="js/mockdata.js"></script>
+<script>
+
+    var action = {
+        countRegion: '/action/count/countRegion', //地区
+        countNumber: '/action/count/countNumber', //数量
+        countLabels: '/action/count/countLabels', //话题
+    }
+
+    var configList = {
+        countRegion: {
+            action: action.countRegion,
+            title: 'type-region',
+            class: 'region-chart',
+            type: 'region',
+            data: {},
+            queryData: {
+                startTime: '2017-05-05',
+                endTime: '2017-07-07',
+            },
+            dataFormater: formater,
+            getOption: function () {
+
+                return {
+                    toolbox: {
+                        feature: {
+                            saveAsImage: {},
+                            dataView: {},
+                        },
+                        right: '15px',
+                    },
+                    tooltip: {
+                        trigger: 'item',
+                        formatter: "{a} <br/>{b}: {c}"
+                    },
+                    title: {
+                        text: '地区'
+                    },
+                    xAxis: {
+                        data: this.data.xAxis,
+                        axisLabel: {
+                            interval: 0,
+                            rotate: 0,
+                            formatter: function (val) {
+                                return val.split("").join("\n"); //横轴信息文字竖直显示
+                            },
+                        },
+                        show: true,
+                    },
+                    yAxis: {
+                        type: 'value',
+                        show: true,
+                    },
+                    legend: {
+                        data: ['会展', '培训']
+                    },
+                    series: [{
+                        "name": "会展",
+                        "type": "bar",
+                        "data": this.data.exhibition,
+                        "stack": "地区",
+                        "barWidth": 10,
+                        "barGap": '1%',
+                        "barCategoryGap": '40%',
+                    }, {
+                        "name": "培训",
+                        "type": "bar",
+                        "data": this.data.train,
+                        "stack": "地区",
+                        "barWidth": 10,
+                        "barGap": '1%',
+                        "barCategoryGap": '1%',
+                    }
+                    ]
+                }
+            },
+            formList:[{
+                type:['exhibition','train'],
+                head:['地区 \\ 类型','会展','培训'],
+            }],
+        },
+        countNumber: {
+            action: action.countNumber,
+            title: 'type-number',
+            class: 'number-chart',
+            type: 'number',
+            data: {},
+            queryData: {
+                startTime: '2017-05',
+                endTime: '2017-07',
+            },
+            dataFormater: formater,
+            getOption: function () {
+                return {
+                    toolbox: {
+                        feature: {
+                            saveAsImage: {},
+                            dataView: {},
+                        },
+                        right: '15px',
+                    },
+                    tooltip: {
+                        trigger: 'item',
+                        formatter: "{a} <br/>{b}: {c}"
+                    },
+                    title: {
+                        text: '数量'
+                    },
+                    xAxis: {
+                        data: this.data.xAxis,
+                        show: true,
+                        axisLabel: {
+                            interval: 0,
+                            rotate: 0,
+                            formatter: function (val) {
+                                return val;
+                            },
+                        },
+                    },
+                    yAxis: {
+                        type: 'value',
+                        show: true,
+                    },
+                    legend: {
+                        data: ['会展', '培训']
+                    },
+                    series: [
+                        {
+                            "name": "会展",
+                            "type": "line",
+                            "data": this.data.exhibition
+                        }, {
+                            "name": "培训",
+                            "type": "line",
+                            "data": this.data.train
+                        }
+                    ]
+                }
+            },
+            formList:[{
+                type:['exhibition','train'],
+                head:['时间 \\ 类型','会展','培训'],
+            }],
+        },
+        countLabels: {
+            action: action.countLabels,
+            title: 'type-labels',
+            class: 'labels-chart',
+            type: 'labels',
+            data: {},
+            queryData: {
+                startTime: '2017-05-05',
+                endTime: '2017-07-07',
+            },
+            dataFormater: formater,
+            getOption: function () {
+                return {
+                    title: {
+                        text: '话题'
+                    },
+                    itemStyle: {
+                        normal: {
+                            label: {
+                                show: true,
+                                formatter: '{b} : {c} ({d}%)'
+                            },
+                            labelLine: {show: true}
+                        }
+                    },
+                    toolbox: {
+                        feature: {
+                            saveAsImage: {},
+                            dataView: {},
+                        },
+                        right: '15px',
+                    },
+                    tooltip: {
+                        trigger: 'item',
+                        formatter: "{a} <br/>{b}: {c} ({d}%)"
+                    },
+                    legend: {
+                        //orient: 'vertical',
+                        x: 'center',
+                        data: ['会展', '培训']
+                    },
+                    xAxis: {
+                        show: false,
+                    },
+                    yAxis: {
+                        show: false,
+                    },
+                    series: [
+                        {
+                            name: '培训',
+                            type: 'pie',
+                            selectedMode: 'single',
+                            radius: ['20%', '30%'],
+
+                            label: {
+                                normal: {
+                                    position: 'inner'
+                                }
+                            },
+                            labelLine: {
+                                normal: {
+                                    show: false
+                                }
+                            },
+                            data: this.data.train
+                        },
+                        {
+                            name: '会展',
+                            type: 'pie',
+                            radius: ['45%', '55%'],
+                            label: {
+                                normal: {
+                                    //formatter: '{a|{a}}{abg|}\n{hr|}\n  {b|{b}：}{c}  {per|{d}%}  ',
+                                    backgroundColor: '#eee',
+                                    borderColor: '#aaa',
+                                    borderWidth: 1,
+                                    borderRadius: 4,
+                                    // shadowBlur:3,
+                                    // shadowOffsetX: 2,
+                                    // shadowOffsetY: 2,
+                                    // shadowColor: '#999',
+                                    // padding: [0, 7],
+                                    rich: {
+                                        a: {
+                                            color: '#999',
+                                            lineHeight: 22,
+                                            align: 'center'
+                                        },
+                                        // abg: {
+                                        //     backgroundColor: '#333',
+                                        //     width: '100%',
+                                        //     align: 'right',
+                                        //     height: 22,
+                                        //     borderRadius: [4, 4, 0, 0]
+                                        // },
+                                        hr: {
+                                            borderColor: '#aaa',
+                                            width: '100%',
+                                            borderWidth: 0.5,
+                                            height: 0
+                                        },
+                                        b: {
+                                            fontSize: 16,
+                                            lineHeight: 33
+                                        },
+                                        per: {
+                                            color: '#eee',
+                                            backgroundColor: '#334455',
+                                            padding: [2, 4],
+                                            borderRadius: 2
+                                        }
+                                    }
+                                }
+                            },
+                            data: this.data.exhibition
+                        }
+                    ],
+                }
+            },
+            formList:[{
+                type:['exhibition'],
+                head:['话题 \\ 类型','会展'],
+            },{
+                type:['train'],
+                head:['话题 \\ 类型','培训'],
+            }],
+        },
+
+    };
+    var DEFAULT_CHART = 'countNumber'
+
+    function loadChartList() {
+
+        for (var k in configList) {
+
+
+            (function (k) {
+
+                setTimeout(function () {
+                    configList[k].data = formater(window[k].responseData, configList[k].type)
+                    loadChart(configList[k].class, configList[k].getOption(), configList[k])
+                    console.log(configList[k].class, configList[k].getOption())
+                    if (k === DEFAULT_CHART) {
+                        loadMainChart(DEFAULT_CHART)
+                    }
+                }, 0)
+
+            })(k)
+
+//            ajax(configList[k].action,configList[k].queryData,function (data) {
+//                formater(data.responseData,configList[k].type)
+//                loadChart(configList[k].class,configList[k].getOption())
+//            })
+        }
+    }
+
+
+    function loadChart(selector, option) {
+        var chart = echarts.init(document.getElementsByClassName(selector)[0]);
+        chart.setOption(option);
+    }
+    function loadMainChart(type) {
+
+        loadChart('main-chart', configList[type].getOption())
+        createForm(configList[type])
+    }
+    function bindEvents() {
+        [].forEach.call(document.getElementsByClassName('top-title'), function (item, index) {
+            console.log(11111111)
+            item.onclick = function () {
+                console.log(22222222222222)
+                var option = {
+                    type: item.dataset.type,
+                }
+                document.getElementsByClassName('active-small-echart')[0].classList.remove('active-small-echart')
+                item.parentNode.classList.add('active-small-echart')
+                loadMainChart(item.dataset.type)
+            }
+        })
+    }
+
+    function formater(tableData, type) {
+        if (type == 'region') {
+            var regionExhibition = tableData.regionExhibition
+            var regionTrain = tableData.regionTrain
+
+            var xAxis = [], regionExhibitionData = [], regionTrainData = [];
+            regionExhibition.forEach(function (item) {
+                xAxis.push(item.region)
+                regionExhibitionData.push(item.sumNumber)
+            })
+            regionTrain.forEach(function (item) {
+                regionTrainData.push(item.sumNumber)
+            })
+            return {
+                xAxis: xAxis,
+                exhibition: regionExhibitionData,
+                train: regionTrainData,
+            }
+        } else if (type == 'number') {
+            var exhibition = tableData.exhibition
+            var train = tableData.train
+            var xAxis = [], exhibitionData = [], trainData = [];
+            exhibition.forEach(function (item) {
+                xAxis.push(item.month)
+                exhibitionData.push(item.sumNumber)
+            })
+            train.forEach(function (item) {
+                trainData.push(item.sumNumber)
+            })
+            return {
+                xAxis: xAxis,
+                exhibition: exhibitionData,
+                train: trainData,
+            }
+        } else if (type == 'labels') {
+            var percentExhibition = tableData.percentExhition
+            var percentTrain = tableData.percentTrain
+            var percentExhibitionData = [], percentTrainData = [];
+            percentExhibition.forEach(function (item) {
+                percentExhibitionData.push({
+                    value: item.percent,
+                    name: item.labelName
+                })
+            })
+            percentTrain.forEach(function (item) {
+                percentTrainData.push({
+                    value: item.percent,
+                    name: item.labelName
+                })
+            })
+            return {
+                exhibition: percentExhibitionData,
+                train: percentTrainData,
+            }
+        }
+    }
+
+    function createForm(obj) {
+        var tableWrap = document.getElementById('main-table-wrap');
+        var html = '';
+
+        obj.formList.forEach(function (item,index) {
+            html = html + '<table  cellspacing="0" class="main-table" cellpadding="10"> <tr>';
+            item.head.forEach(function (h) {
+                html = html + '<th>' + h + ' \ ' + '</th>';
+            });
+            html = html + '</tr>'
+
+            //地区和数量（时间）
+            obj.data.xAxis && obj.data.xAxis.forEach(function (x,index) {
+                html = html + '<tr><td>' + x +'</td>' ;
+
+                item.type.forEach(function (t) {
+                    html = html + '<td>' + obj.data[t][index] + '</td>' ;
+                })
+
+                html = html + '</tr>'
+            })
+
+            //话题
+            obj.data.xAxis || item.type.forEach(function (t) {
+                obj.data[t].forEach(function (currentItem) {
+                    html = html + '<tr><td>' + currentItem.name + '</td><td>' + currentItem.value +'</td></tr>';
+                })
+            })
+        })
+        tableWrap.innerHTML = html;
+    }
+
+
+    loadChartList()
+    bindEvents()
+
+
+</script>
+
+</body>
+</html>

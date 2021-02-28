@@ -1,0 +1,345 @@
+body {
+  font-family: "Microsoft YaHei", "Verdana", sans-serif;
+  margin: 0;
+  color: #555555;
+  font-size: 12px;
+  min-width: 1300px;
+  height: 100%; }
+
+ul {
+  padding: 0;
+  margin: 0; }
+
+li {
+  list-style: none; }
+
+a:link, a:visited, a:hover {
+  color: #555555;
+  text-decoration: none; }
+
+img {
+  height: 100%;
+  width: 100%; }
+
+.circle {
+  border-radius: 50%; }
+
+.highlight {
+  color: #187fce; }
+
+.header {
+  width: 100%;
+  height: 48px;
+  background: #2c2c2c; }
+  .header .header-info {
+    margin: auto;
+    width: 1198px;
+    height: 48px;
+    position: relative; }
+    .header .header-info .logo {
+      width: 200px;
+      height: 40px;
+      color: white;
+      text-align: center;
+      margin-top: 4px; }
+    .header .header-info .menu .menu-home {
+      width: 60px;
+      height: 48px;
+      line-height: 48px;
+      color: white;
+      cursor: pointer;
+      text-align: center; }
+    .header .header-info .menu .menu-home:hover {
+      background: #1e1e1e; }
+    .header .header-info .menu .menu-info .top-menu {
+      height: 48px;
+      width: 66px;
+      line-height: 48px;
+      margin: 0 12px;
+      cursor: pointer;
+      text-align: center;
+      color: white; }
+    .header .header-info .menu .menu-info .active-top-menu {
+      background: #1e1e1e; }
+    .header .header-info .top-menu-info {
+      display: none;
+      width: 1158px;
+      position: absolute;
+      top: 48px;
+      z-index: 100;
+      text-align: center; }
+      .header .header-info .top-menu-info .top-menu-info-box {
+        background: #1e1e1e;
+        padding: 20px;
+        display: inline-block; }
+        .header .header-info .top-menu-info .top-menu-info-box .first-menu-info {
+          margin: 0 30px;
+          height: 188px;
+          text-align: left; }
+          .header .header-info .top-menu-info .top-menu-info-box .first-menu-info .first-menu-name {
+            height: 50px;
+            line-height: 50px;
+            font-size: 15px;
+            font-weight: bold;
+            color: white;
+            margin: 0 30px; }
+          .header .header-info .top-menu-info .top-menu-info-box .first-menu-info .first-menu-name-a {
+            color: white; }
+          .header .header-info .top-menu-info .top-menu-info-box .first-menu-info .second-menu-box {
+            margin: 0 30px; }
+            .header .header-info .top-menu-info .top-menu-info-box .first-menu-info .second-menu-box .second-menu-name {
+              height: 32px;
+              line-height: 32px;
+              color: #adb0b6;
+              cursor: pointer; }
+            .header .header-info .top-menu-info .top-menu-info-box .first-menu-info .second-menu-box .second-menu-name:hover {
+              color: white; }
+    .header .header-info .top-menu-info:hover {
+      display: block; }
+    .header .header-info .right-info {
+      height: 48px; }
+      .header .header-info .right-info .language {
+        margin: 11px 5px 11px 0;
+        padding-right: 14px;
+        border-right: 2px solid white;
+        height: 26px;
+        line-height: 26px;
+        color: white;
+        cursor: pointer;
+        font-size: 14px; }
+      .header .header-info .right-info .login-user-info {
+        display: none;
+        margin: 10px 0;
+        height: 26px;
+        line-height: 26px; }
+        .header .header-info .right-info .login-user-info .head-login-button {
+          background-color: #2c2c2c;
+          border: 1px solid white; }
+        .header .header-info .right-info .login-user-info .head-register-button {
+          background-color: #0e61bf;
+          border: 1px solid #0e61bf; }
+        .header .header-info .right-info .login-user-info .head-register-button, .header .header-info .right-info .login-user-info .head-login-button {
+          margin-left: 16px;
+          height: 26px;
+          cursor: pointer;
+          color: white;
+          width: 68px;
+          text-align: center;
+          border-radius: 3px; }
+          .header .header-info .right-info .login-user-info .head-register-button a:visited, .header .header-info .right-info .login-user-info .head-login-button a:visited {
+            color: white; }
+      .header .header-info .right-info .logged-in {
+        margin: 0;
+        height: 48px;
+        color: white;
+        padding: 0 10px;
+        position: relative;
+        cursor: pointer; }
+        .header .header-info .right-info .logged-in .logged-in-info {
+          height: 48px;
+          line-height: 48px; }
+          .header .header-info .right-info .logged-in .logged-in-info .user-icon {
+            margin-right: 10px;
+            width: 12px;
+            height: 15px;
+            margin-top: 17px; }
+          .header .header-info .right-info .logged-in .logged-in-info .user-name {
+            margin-right: 10px; }
+        .header .header-info .right-info .logged-in .user-info-select {
+          display: none;
+          background-color: #2c2c2c;
+          position: absolute;
+          width: 100%;
+          left: 0;
+          top: 48px; }
+          .header .header-info .right-info .logged-in .user-info-select div {
+            height: 38px;
+            line-height: 38px;
+            cursor: pointer;
+            text-align: center; }
+          .header .header-info .right-info .logged-in .user-info-select a {
+            color: white; }
+          .header .header-info .right-info .logged-in .user-info-select div:hover {
+            background: #1e1e1e; }
+      .header .header-info .right-info .active-login {
+        display: block; }
+
+.footer {
+  width: 100%;
+  height: 180px;
+  background: #2c2c2c; }
+  .footer .footer-head {
+    height: 152px;
+    width: 100%; }
+    .footer .footer-head .footer-head-info {
+      height: 152px;
+      width: 1198px;
+      margin: auto;
+      color: white; }
+      .footer .footer-head .footer-head-info .about-us, .footer .footer-head .footer-head-info .connect-cooperate, .footer .footer-head .footer-head-info .related-links {
+        width: 239px;
+        float: left;
+        padding-left: 160px; }
+        .footer .footer-head .footer-head-info .about-us .about-us-title, .footer .footer-head .footer-head-info .about-us .connect-cooperate-title, .footer .footer-head .footer-head-info .about-us .related-links-title, .footer .footer-head .footer-head-info .connect-cooperate .about-us-title, .footer .footer-head .footer-head-info .connect-cooperate .connect-cooperate-title, .footer .footer-head .footer-head-info .connect-cooperate .related-links-title, .footer .footer-head .footer-head-info .related-links .about-us-title, .footer .footer-head .footer-head-info .related-links .connect-cooperate-title, .footer .footer-head .footer-head-info .related-links .related-links-title {
+          height: 64px;
+          line-height: 64px;
+          font-weight: bold; }
+        .footer .footer-head .footer-head-info .about-us li, .footer .footer-head .footer-head-info .connect-cooperate li, .footer .footer-head .footer-head-info .related-links li {
+          margin-bottom: 8px;
+          cursor: pointer; }
+  .footer .footer-bottom {
+    width: 100%;
+    height: 28px;
+    background: #101010; }
+    .footer .footer-bottom .footer-bottom-info {
+      width: 1198px;
+      text-align: center;
+      color: white;
+      line-height: 28px;
+      margin: auto; }
+
+.main-content {
+  background: white; }
+
+.main-content-info {
+  width: 1198px;
+  margin: auto; }
+
+.main-content-error404 {
+  background-image: url("../images/background.jpg");
+  min-height: 640px; }
+  .main-content-error404 div {
+    text-align: center;
+    color: white; }
+  .main-content-error404 .large-text {
+    padding-top: 134px;
+    font-size: 110px; }
+  .main-content-error404 .middle-text {
+    font-size: 35px; }
+  .main-content-error404 .small-text {
+    font-size: 18px;
+    margin-top: 10px;
+    color: #bec3c7; }
+  .main-content-error404 .to-home-button {
+    margin-top: 66px; }
+    .main-content-error404 .to-home-button .turn-to-home {
+      width: 178px;
+      height: 32px;
+      margin: auto;
+      line-height: 32px;
+      font-size: 14px;
+      border: 1px solid white;
+      -webkit-border-radius: 8px;
+      -moz-border-radius: 8px;
+      border-radius: 8px;
+      cursor: pointer; }
+      .main-content-error404 .to-home-button .turn-to-home a {
+        color: white; }
+
+.system-icon {
+  background: no-repeat url("../images/ICON.png"); }
+
+.icon-logo {
+  background: url("../images/logo.png") no-repeat;
+  background-size: auto 40px; }
+
+.icon-login-user {
+  background-position: -24px -216px; }
+
+.icon-email-active {
+  background-position: 0 -138px; }
+
+.icon-email-inactive {
+  background-position: -54px -138px; }
+
+.icon-phone-active {
+  background-position: 0 -84px; }
+
+.icon-phone-inactive {
+  background-position: -54px -84px; }
+
+.icon-info-active {
+  background-position: -12px -216px; }
+
+.icon-info-inactive {
+  background-position: 0 -216px; }
+
+.icon-password-active {
+  background-position: -12px -230px; }
+
+.icon-password-inactive {
+  background-position: 0 -230px; }
+
+.icon-bind-active {
+  background-position: -12px -244px; }
+
+.icon-bind-inactive {
+  background-position: 0 -244px; }
+
+.icon-follow-active {
+  background-position: -12px -258px; }
+
+.icon-follow-inactive {
+  background-position: 0px -258px; }
+
+.icon-error {
+  background-position: -36px -215px; }
+
+.icon-success {
+  background-position: 0 -24px; }
+
+.icon-email {
+  background-position: -108px -84px; }
+
+.float-left {
+  float: left; }
+
+.float-right {
+  float: right; }
+
+.float-clear {
+  clear: both; }
+
+.position-relative {
+  position: relative; }
+
+.position-absolute {
+  position: absolute; }
+
+.clearfix:after {
+  content: " ";
+  display: block;
+  height: 0;
+  clear: both;
+  visibility: hidden; }
+
+.layout {
+  width: 1300px;
+  min-height: 400px;
+  margin: 0 auto; }
+
+.main-com {
+  width: 800px;
+  float: left;
+  padding: 0 20px; }
+
+.right-com {
+  width: 420px;
+  float: left; }
+
+.half-com {
+  width: 50%;
+  float: left;
+  padding: 0 20px;
+  box-sizing: border-box; }
+
+.list-show-more {
+  margin: 20px auto;
+  text-align: center;
+  width: 100%;
+  font-size: 14px;
+  background-color: gainsboro;
+  height: 30px;
+  line-height: 30px; }
+
+/*# sourceMappingURL=public.css.map */

@@ -1,0 +1,457 @@
+<!doctype html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+
+<div id="echarts-box-main">
+
+    <div id="lineChartOrder" style="width: 1500px;height: 400px;"></div>
+    <div id="countNumberChart" style="width: 500px;height: 400px;"></div>
+    <div id="countLabelsChart" style="width: 600px;height: 600px;"></div>
+
+
+    <button onclick="getData()">获取数据</button>
+    <button onclick="getData2()">获取数据</button>
+    <button onclick="getData3()">获取数据</button>
+</div>
+<script src="js/echarts.common.min.js"></script>
+<script src="js/mockdata.js"></script>
+<script>
+    var ROOT_PATH = "http://192.168.5.26:8086"
+    function getData() {
+
+        var option = {
+            startTime: '2017-05',
+            endTime: '2017-07',
+        }
+        ajax('/action/count/countNumber', option, function (data) {
+            console.log(data)
+        })
+    }
+
+    function getData2() {
+        //  action/count/countRegion
+
+        var option = {
+            startTime: '2017-05-05',
+            endTime: '2017-07-07',
+        }
+        ajax('/action/count/countRegion', option, function (data) {
+            console.log(data)
+        })
+    }
+    function getData3() {
+        // /action/count/countLabels
+
+        var option = {
+            startTime: '2017-05-05',
+            endTime: '2017-07-07',
+        }
+        ajax('/action/count/countLabels', option, function (data) {
+            console.log(data)
+        })
+    }
+    function ajax(url, param, s, f) {
+        var xmlhttp;
+        if (window.XMLHttpRequest) {
+            //  IE7+, Firefox, Chrome, Opera, Safari 浏览器执行代码
+            xmlhttp = new XMLHttpRequest();
+        } else {
+            // IE6, IE5 浏览器执行代码
+            xmlhttp = new ActiveXObject("Microsoft.XMLHTTP")
+        }
+        xmlhttp.onreadystatechange = function () {
+            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                s && s(xmlhttp.responseText)
+            }
+        }
+        xmlhttp.open("POST", ROOT_PATH + url, true)
+        xmlhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded;");
+        xmlhttp.send(getForm(param))
+    }
+
+    function getForm(param) {
+        let formData = "";
+        for (let key in param) {
+            if (param[key] === undefined) {
+                param[key] = ''
+            }
+            if (param[key] != null && typeof(param[key]) == 'object') {
+                let obj = param[key]
+                if (isArray(obj)) {
+                    formData += obj.reduce((str, now) => {
+                        if (typeof(now) == 'object') {
+                            return str
+                        }
+                        return str + `${key}=${encodeURIComponent(now)}&`
+                    }, '')
+                }
+                continue;
+            } else {
+                formData += `${key}=${encodeURIComponent(param[key])}&`
+            }
+        }
+        if (formData == "") {
+            return formData;
+        } else {
+            return formData.substr(0, formData.length - 1);
+        }
+    }
+
+    function showCountRegion(tableData) {
+
+        var regionExhibition = tableData.regionExhibition
+        var regionTrain = tableData.regionTrain
+
+        var xAxis = [], regionExhibitionData = [], regionTrainData = [];
+        regionExhibition.forEach(function (item) {
+            xAxis.push(item.region)
+            regionExhibitionData.push(item.sumNumber+1)
+        })
+        regionTrain.forEach(function (item) {
+            regionTrainData.push(item.sumNumber+1)
+        })
+        console.log(xAxis)
+        console.log(regionExhibitionData)
+        console.log(regionTrainData)
+
+        var options = {
+            toolbox: {
+                feature: {
+                    dataZoom: {
+                        yAxisIndex: 'none'
+                    },
+                    restore: {},
+                    saveAsImage: {}
+                }
+            },
+            title: {
+                text: '地区'
+            },
+            xAxis: {
+                data: xAxis
+            },
+            yAxis: {
+                type: 'value'
+            },
+            legend: {
+                data: ['会展地区', '培训地区']
+            },
+            series: [
+                {
+                    "name": "会展地区",
+                    "type": "bar",
+                    "data": regionExhibitionData,
+                    "stack":"地区",
+                    "barWidth":10,
+                    "barGap":'1%',
+                    "barCategoryGap":'40%',
+                }, {
+                    "name": "培训地区",
+                    "type": "bar",
+                    "data": regionTrainData,
+                    "stack":"地区",
+                    "barWidth":10,
+                    "barGap":'1%',
+                    "barCategoryGap":'1%',
+                }
+            ]
+        }
+        showTable('#lineChartOrder', options)
+
+    }
+
+    function showCountNumber(tableData) {
+
+        var exhibition = tableData.exhibition
+        var train = tableData.train
+
+        var xAxis = [], exhibitionData = [], trainData = [];
+        exhibition.forEach(function (item) {
+            xAxis.push(item.month)
+            exhibitionData.push(item.sumNumber)
+        })
+        train.forEach(function (item) {
+            trainData.push(item.sumNumber)
+        })
+        console.log(xAxis)
+
+        var options = {
+            toolbox: {
+                feature: {
+                    dataZoom: {
+                        yAxisIndex: 'none'
+                    },
+                    restore: {},
+                    saveAsImage: {},
+                    dataView: {},
+                }
+            },
+            title: {
+                text: '数量'
+            },
+            xAxis: {
+                data: xAxis
+            },
+            yAxis: {
+                type: 'value'
+            },
+            legend: {
+                data: ['会展数量', '培训数量']
+            },
+            series: [
+                {
+                    "name": "会展数量",
+                    "type": "line",
+                    "data": exhibitionData
+                }, {
+                    "name": "培训数量",
+                    "type": "line",
+                    "data": trainData
+                }
+            ]
+        }
+
+        showTable('#countNumberChart', options)
+    }
+
+    function showCountLabels(tableData) {
+
+        var percentExhition = tableData.percentExhition
+        var percentTrain = tableData.percentTrain
+
+        var percentExhitionData = [], percentTrainData = [];
+
+        percentExhition.forEach(function (item) {
+            percentExhitionData.push({
+                value: item.percent,
+                name: item.labelName
+            })
+        })
+        percentTrain.forEach(function (item) {
+            percentTrainData.push({
+                value: item.percent,
+                name: item.labelName
+            })
+        })
+
+
+        var options = {
+            itemStyle: {
+                normal: {
+                    label: {
+                        show: true,
+                        formatter: '{b} : {c} ({d}%)'
+                    },
+                    labelLine: {show: true}
+                }
+            },
+            toolbox: {
+                feature: {
+                    dataZoom: {
+                        yAxisIndex: 'none'
+                    },
+                    restore: {},
+                    saveAsImage: {},
+                    dataView: {},
+                }
+            },
+            tooltip: {
+                trigger: 'item',
+                formatter: "{a} <br/>{b}: {c} ({d}%)"
+            },
+            legend: {
+                orient: 'vertical',
+                x: 'left',
+                data: ['会展话题', '培训话题']
+            },
+            series: [
+                {
+                    name: '会展话题',
+                    type: 'pie',
+                    selectedMode: 'single',
+                    radius: [50, '30%'],
+
+                    label: {
+                        normal: {
+                            position: 'inner'
+                        }
+                    },
+                    labelLine: {
+                        normal: {
+                            show: false
+                        }
+                    },
+                    data: percentExhitionData
+                },
+                {
+                    name: '培训话题',
+                    type: 'pie',
+                    radius: ['40%', '55%'],
+                    label: {
+                        normal: {
+                            formatter: '{a|{a}}{abg|}\n{hr|}\n  {b|{b}：}{c}  {per|{d}%}  ',
+                            backgroundColor: '#eee',
+                            borderColor: '#aaa',
+                            borderWidth: 1,
+                            borderRadius: 4,
+                            // shadowBlur:3,
+                            // shadowOffsetX: 2,
+                            // shadowOffsetY: 2,
+                            // shadowColor: '#999',
+                            // padding: [0, 7],
+                            rich: {
+                                a: {
+                                    color: '#999',
+                                    lineHeight: 22,
+                                    align: 'center'
+                                },
+                                // abg: {
+                                //     backgroundColor: '#333',
+                                //     width: '100%',
+                                //     align: 'right',
+                                //     height: 22,
+                                //     borderRadius: [4, 4, 0, 0]
+                                // },
+                                hr: {
+                                    borderColor: '#aaa',
+                                    width: '100%',
+                                    borderWidth: 0.5,
+                                    height: 0
+                                },
+                                b: {
+                                    fontSize: 16,
+                                    lineHeight: 33
+                                },
+                                per: {
+                                    color: '#eee',
+                                    backgroundColor: '#334455',
+                                    padding: [2, 4],
+                                    borderRadius: 2
+                                }
+                            }
+                        }
+                    },
+                    data: percentTrainData
+                }
+            ]
+        };
+
+        console.log(percentExhitionData, percentTrainData)
+
+        options1 = {
+            tooltip: {
+                trigger: 'item',
+                formatter: "{a} <br/>{b}: {c} ({d}%)"
+            },
+            legend: {
+                orient: 'vertical',
+                x: 'left',
+                data: ['直达', '营销广告', '搜索引擎', '邮件营销', '联盟广告', '视频广告', '百度', '谷歌', '必应', '其他']
+            },
+            series: [
+                {
+                    name: '访问来源',
+                    type: 'pie',
+                    selectedMode: 'single',
+                    radius: [50, '30%'],
+
+                    label: {
+                        normal: {
+                            position: 'inner'
+                        }
+                    },
+                    labelLine: {
+                        normal: {
+                            show: false
+                        }
+                    },
+                    data: [
+                        {value: 335, name: '直达', selected: true},
+                        {value: 679, name: '营销广告'},
+                        {value: 1548, name: '搜索引擎'}
+                    ]
+                },
+                {
+                    name: '访问来源',
+                    type: 'pie',
+                    radius: ['40%', '55%'],
+                    label: {
+                        normal: {
+                            formatter: '{a|{a}}{abg|}\n{hr|}\n  {b|{b}：}{c}  {per|{d}%}  ',
+                            backgroundColor: '#eee',
+                            borderColor: '#aaa',
+                            borderWidth: 1,
+                            borderRadius: 4,
+                            // shadowBlur:3,
+                            // shadowOffsetX: 2,
+                            // shadowOffsetY: 2,
+                            // shadowColor: '#999',
+                            // padding: [0, 7],
+                            rich: {
+                                a: {
+                                    color: '#999',
+                                    lineHeight: 22,
+                                    align: 'center'
+                                },
+                                // abg: {
+                                //     backgroundColor: '#333',
+                                //     width: '100%',
+                                //     align: 'right',
+                                //     height: 22,
+                                //     borderRadius: [4, 4, 0, 0]
+                                // },
+                                hr: {
+                                    borderColor: '#aaa',
+                                    width: '100%',
+                                    borderWidth: 0.5,
+                                    height: 0
+                                },
+                                b: {
+                                    fontSize: 16,
+                                    lineHeight: 33
+                                },
+                                per: {
+                                    color: '#eee',
+                                    backgroundColor: '#334455',
+                                    padding: [2, 4],
+                                    borderRadius: 2
+                                }
+                            }
+                        }
+                    },
+                    data: [
+                        {value: 335, name: '直达'},
+                        {value: 310, name: '邮件营销'},
+                        {value: 234, name: '联盟广告'},
+                        {value: 135, name: '视频广告'},
+                        {value: 1048, name: '百度'},
+                        {value: 251, name: '谷歌'},
+                        {value: 147, name: '必应'},
+                        {value: 102, name: '其他'}
+                    ]
+                }
+            ]
+        };
+
+        showTable('#countLabelsChart', options)
+    }
+
+    function showTable(selector, options) {
+        console.log(selector)
+        lineChartOrder = echarts.init(document.querySelector(selector));
+        lineChartOrder.setOption(options);
+    }
+
+    showCountRegion(countRegion.responseData)
+    showCountNumber(countNumber.responseData)
+    showCountLabels(countLabels.responseData)
+</script>
+</body>
+</html>

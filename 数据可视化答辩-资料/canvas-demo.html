@@ -1,0 +1,91 @@
+<!DOCTYPE HTML>
+<html>
+<body>
+<canvas id="myCanvas1" width="500" height="200" style="border:1px solid #c3c3c3;">
+</canvas>
+<!-- 
+<canvas id="myCanvas2" width="500" height="200" style="border:1px solid #c3c3c3;">
+</canvas>
+<canvas id="myCanvas3" width="500" height="200" style="border:1px solid #c3c3c3;">
+</canvas> -->
+<canvas id="myCanvas" width="500" height="200" style="border:1px solid #c3c3c3;">
+Your browser does not support the canvas element.
+</canvas>
+
+
+<script type="text/javascript">
+	var can1=document.getElementById("myCanvas1");
+	var ctx1=can1.getContext("2d");
+	ctx1.fillStyle="pink";
+	ctx1.beginPath();
+	ctx1.arc(20,18,15,0,Math.PI*2,true);
+	ctx1.closePath();
+	ctx1.fill();
+
+
+
+
+var can=document.getElementById("myCanvas");
+var ctx=can.getContext("2d");
+draw()
+function draw(x){
+	ctx.moveTo(20,20);
+	ctx.lineTo(x||150,50);
+	ctx.lineTo(30,80);
+	ctx.stroke();
+
+	ctx.fillStyle="pink";
+	ctx.beginPath();
+	ctx.arc(20,18,15,0,Math.PI*2,true);
+	ctx.closePath();
+	ctx.fill();
+
+	ctx.fillStyle="pink";
+	ctx.beginPath();
+	ctx.arc(30,80,15,0,Math.PI*2,true);
+	ctx.closePath();
+	ctx.fill();
+
+	ctx.fillStyle="#ff6666";
+	ctx.beginPath();
+	ctx.arc(x||150,50,20,0,Math.PI*2,true);
+	ctx.closePath();
+	ctx.fill();
+}
+
+
+
+  can.onmousedown = function(ev){  
+            var e = ev||event;  
+            var x = e.clientX;  
+            var y = e.clientY;  
+            console.log(1)
+            drag(x,y);  
+        };  
+        //拖拽函数  
+	function drag(x,y){
+		console.log(2)
+	    // 按下鼠标判断鼠标位置是否在圆上，当画布上有多个路径时，isPointInPath只能判断最后那一个绘制的路径  
+	    if(ctx.isPointInPath(x,y)){  
+	        //路径正确，鼠标移动事件  
+	        can.onmousemove = function(ev){  
+	            var e = ev||event;  
+	            var ax = e.clientX;  
+	            var ay = e.clientY;  
+	            //鼠标移动每一帧都清楚画布内容，然后重新画圆  
+	            ctx.clearRect(0,0,can.width,can.height);  
+	            //createBlock(ax,ay);  
+	            draw(x)
+	        };  
+	        //鼠标移开事件  
+	        can.onmouseup = function(){  
+	            can.onmousemove = null;  
+	            can.onmouseup = null;  
+	        };  
+	    };  
+	} 
+
+</script>
+
+</body>
+</html>

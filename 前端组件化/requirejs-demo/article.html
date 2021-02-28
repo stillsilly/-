@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>require - 使用 RequireJS 模块化开发多页面网站</title>
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon.png">
+    <link rel="stylesheet" href="css/common.css">
+</head>
+<body>
+<div id="app">
+    <div>
+        <div class="com-title">文章列表</div>
+        <trending type="article"  :defaultData="defaultData" ></trending>
+        <div class="trending-component" data-default = '["热门文章1","热门文章2","热门文章3","热门文章4","热门文章5"]'  data-type="article"></div>
+    </div>
+</div>
+
+<script src="js/require.js" data-main="js/main.js" async="async" defer="defer"></script>
+</body>
+</html>

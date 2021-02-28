@@ -1,0 +1,328 @@
+<!doctype html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+
+
+<div id="lineChartOrder2" style="width: 2000px;height: 800px;background: #999;"></div>
+<div id="lineChartOrder" style="width: 2000px;height: 800px;background: #999;"></div>
+
+<script src="js/graph.js"></script>
+
+<script src="js/echarts.min.js"></script>
+<script src="js/westeros.js"></script>
+<script src="js/jquery-1.8.0.min.js"></script>
+<script src="js/mmockdata.js"></script>
+<script>
+
+
+    myChart = echarts.init( document.querySelector('#lineChartOrder'), 'westeros');
+    myChart.showLoading();
+
+
+        myChart.hideLoading();
+
+
+    option = {
+        title : {
+            text: '人物关系：乔布斯',
+            subtext: '数据来自人立方',
+            x:'right',
+            y:'bottom'
+        },
+        tooltip : {
+            trigger: 'item',
+            formatter: '{a} : {b}'
+        },
+        toolbox: {
+            show : true,
+            feature : {
+                restore : {show: true},
+                magicType: {show: true, type: ['force', 'chord']},
+                saveAsImage : {show: true}
+            }
+        },
+        legend: {
+            x: 'left',
+            data:['家人','朋友']
+        },
+        series : [
+            {
+//                type:'force',  //force
+                type: 'graph',
+                layout: 'force',
+                force: {
+                    repulsion: 5000
+                },
+                name : "人物关系",
+                roam: true,
+                ribbonType: false,
+                categories : [
+                    {
+                        name: '人物'
+                    },
+                    {
+                        name: '家人',
+                        symbol: 'diamond',
+                        symbolSize: 30,
+                    },
+                    {
+                        name:'朋友'
+                    }
+                ],
+                itemStyle: {
+                    normal: {
+                        label: {
+                            show: true,
+                            textStyle: {
+                            },
+                            position:'bottom'
+                        },
+                        nodeStyle : {
+                            brushType : 'both',
+                            borderColor : 'rgba(255,0,0,0.4)',  //'rgba(255,215,0,0.4)',
+                            borderWidth : 1000
+                        }
+                    },
+                    emphasis: {
+                        label: {
+                            show: true
+                            // textStyle: null      // 默认使用全局文本样式，详见TEXTSTYLE
+                        },
+                        nodeStyle : {
+                            //r: 30
+                        },
+                        linkStyle : {}
+                    }
+                },
+                minRadius : 15,
+                maxRadius : 55,
+                gravity: 1,
+                scaling: 3,
+                nodeScaleRatio:4,
+                draggable: true,
+                edgeSymbol:'arrow',
+                symbol:'circle',
+                symbolSize:50,
+                label:{
+                    position:'right',
+                },
+                edgeLabel: {
+                    normal: {
+                        show: true,
+                        formatter: function (x) {
+                            return x.data.name;
+                        }
+                    }
+                },
+                steps: 10,
+                coolDown: 0.99,
+                lineStyle:{
+                    normal:{
+                        color:'pink'
+                    },
+                    emphasis:{
+                        color:'red'
+                    }
+                },
+                data:[
+                    {
+                        category:0, name: '乔布斯', value : 10,
+                        symbol: 'image://http://www.damndigital.com/wp-content/uploads/2010/12/steve-jobs.jpg',
+                        symbolSize: [60, 35],
+                        draggable: true,
+                        itemStyle: {
+                            normal: {
+                                label: {
+                                    position: 'right',
+                                    textStyle: {
+                                        color: 'pink'
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    {category:1, name: '丽萨-乔布斯',value : 2,draggable: true,
+                    symbolSize: 50},
+                    {category:1, name: '保罗-乔布斯',value : 3,draggable: true,},
+                    {category:1, name: '克拉拉-乔布斯',value : 6,draggable: true,},
+                    {category:1, name: '劳伦-鲍威尔',value : 7,draggable: true,},
+                    {category:2, name: '史蒂夫-沃兹尼艾克',value : 5,draggable: true,},
+                    {category:2, name: '奥巴马',value : 8,draggable: true,},
+                    {category:2, name: '比尔-盖茨',value : 9,draggable: true,},
+                    {category:2, name: '乔纳森-艾夫',value : 4,draggable: true},
+                    {category:2, name: '蒂姆-库克',value : 10,draggable: true},
+                    {category:2, name: '龙-韦恩',value : 1,draggable: true},
+                ],
+                links : [
+                    {source : '丽萨-乔布斯', target : '乔布斯', weight : 1, name: '女儿', itemStyle: {
+                        normal: {
+                            width: 1.5,
+                            color: 'red'
+                        }
+                    }},
+                    {source : '乔布斯', target : '丽萨-乔布斯', weight : 1, name: '父亲', itemStyle: {
+                        normal: { color: 'red' }
+                    }},
+                    {source : '保罗-乔布斯', target : '乔布斯', weight : 2, name: '父亲'},
+                    {source : '克拉拉-乔布斯', target : '乔布斯', weight : 1, name: '母亲'},
+                    {source : '劳伦-鲍威尔', target : '乔布斯', weight : 2},
+                    {source : '史蒂夫-沃兹尼艾克', target : '乔布斯', weight : 3, name: '合伙人'},
+                    {source : '奥巴马', target : '乔布斯', weight : 1},
+                    {source : '比尔-盖茨', target : '乔布斯', weight : 6, name: '竞争对手'},
+                    {source : '乔纳森-艾夫', target : '乔布斯', weight : 1, name: '爱将'},
+                    {source : '蒂姆-库克', target : '乔布斯', weight : 1},
+                    {source : '龙-韦恩', target : '乔布斯', weight : 100},
+                    {source : '克拉拉-乔布斯', target : '保罗-乔布斯', weight : 1},
+                    {source : '奥巴马', target : '保罗-乔布斯', weight : 1},
+                    {source : '奥巴马', target : '克拉拉-乔布斯', weight : 1},
+                    {source : '奥巴马', target : '劳伦-鲍威尔', weight : 1},
+                    {source : '奥巴马', target : '史蒂夫-沃兹尼艾克', weight : 1},
+                    {source : '比尔-盖茨', target : '奥巴马', weight : 60},
+                    {source : '比尔-盖茨', target : '克拉拉-乔布斯', weight : 1},
+                    {source : '蒂姆-库克', target : '奥巴马', weight : 100}
+                ]
+            }
+        ]
+    };
+
+        myChart.setOption(option);
+
+
+
+    myChart2 = echarts.init( document.querySelector('#lineChartOrder2'), 'westeros');
+
+    var data = graph.data.rsData[0].entityList
+    var link = graph.data.rsData[0].relationList
+
+    data.forEach(function (item) {
+        delete item.id
+    })
+    link.forEach(function (linkItem,index) {
+    })
+    console.log("data:",data)
+    console.log("link:",link)
+    console.log("graph:",graph)
+    option2 = {
+        title : {
+            text: '人物关系：乔布斯',
+            subtext: '数据来自人立方',
+            x:'right',
+            y:'bottom'
+        },
+        tooltip : {
+            trigger: 'item',
+            formatter: '{a} : {b}'
+        },
+        toolbox: {
+            show : true,
+            feature : {
+                restore : {show: true},
+                magicType: {show: true, type: ['force', 'chord']},
+                saveAsImage : {show: true}
+            }
+        },
+        legend: {
+            x: 'left',
+            data:['发明专利','公司机构','人名','技术关键词']
+        },
+
+        series : [
+            {
+//                type:'force',  //force
+                type: 'graph',
+                layout: 'force',
+                force: {
+                    repulsion: 1000
+                },
+                name : "人物关系",
+                roam: true,
+                ribbonType: false,
+                categories : [
+                    {
+                        name: '发明专利'
+                    },
+                    {
+                        name: '公司机构',
+                        symbol: 'diamond',
+                        symbolSize: 30,
+                    },
+                    {
+                        name:'人名'
+                    },
+                    {
+                        name:'技术关键词'
+                    }
+                ],
+                itemStyle: {
+                    normal: {
+                        label: {
+                            show: true,
+                            textStyle: {
+                            },
+                            position:'bottom'
+                        },
+                        nodeStyle : {
+                            brushType : 'both',
+                            borderColor : 'rgba(255,0,0,0.4)',  //'rgba(255,215,0,0.4)',
+                            borderWidth : 100
+                        },
+                    },
+                    emphasis: {
+                        label: {
+                            show: true
+                            // textStyle: null      // 默认使用全局文本样式，详见TEXTSTYLE
+                        },
+                        nodeStyle : {
+                            //r: 30
+                        },
+                        linkStyle : {}
+                    }
+                },
+                minRadius : 15,
+                maxRadius : 55,
+                gravity: 1,
+                scaling: 3,
+                nodeScaleRatio:4,
+                draggable: true,
+                edgeSymbol:'arrow',
+                symbol:'circle',
+                symbolSize:50,
+                label:{
+                    position:'right',
+                },
+                edgeLabel: {
+                    normal: {
+                        show: true,
+                        formatter: function (x) {
+                            return x.data.name;
+                        }
+                    }
+                },
+                steps: 10,
+                coolDown: 0.99,
+                lineStyle:{
+                    normal:{
+                        color:'pink'
+                    },
+                    emphasis:{
+                        color:'red'
+                    }
+                },
+                data:data,
+                links : link
+            }
+        ]
+    };
+
+    myChart2.setOption(option2);
+
+</script>
+</body>
+</html>

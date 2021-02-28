@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>require - 使用 RequireJS 模块化开发多页面网站</title>
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon.png">
+    <link rel="stylesheet" href="css/common.css">
+</head>
+<body>
+<div id="app">
+    <div id="exhibition">
+        <div class="com-title">会展资源</div>
+        <div style="height: 200px;border: 1px solid #FD6378;margin-top: 20px ">这里是其他模块</div>
+        <div style="height: 500px;width: 500px;display: inline-block;border: 1px solid #FD6378;vertical-align: top;border-top: 0">占位</div>
+        <div style="height: 500px;width: 500px;display: inline-block;border: 1px solid #FD6378;border-top: 0">
+            <trending type="exhibition"  :defaultData="defaultData" ></trending>
+            <div class="trending-component" data-default = '["会展热搜1","会展热搜2","会展热搜3","会展热搜4","会展热搜5"]'  data-type="exhibition"></div>
+        </div>
+
+    </div>
+</div>
+
+<script src="js/require.js" data-main="js/main.js" async="async" defer="defer"></script>
+</body>
+</html>
